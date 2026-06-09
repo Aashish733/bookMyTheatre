@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+  overflow-x: hidden;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* BookMyShow-style hero banner slider */
+.banner-slider .slick-list {
+  overflow: hidden;
+}
+
+.banner-slider .slick-track {
+  display: flex;
+  align-items: center;
+}
+
+.banner-slider .banner-slide {
+  padding: 0 6px;
+  outline: none;
+}
+
+.banner-slider .banner-slide-image {
+  border-radius: 12px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.banner-slider .slick-slide:not(.slick-center) .banner-slide-image {
+  opacity: 0.55;
+  transform: scale(0.94);
+}
+
+.banner-slider .slick-slide.slick-center .banner-slide-image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.banner-slider .banner-slider-dots {
+  position: relative;
+  bottom: 0;
+  margin-top: 16px;
+  line-height: 0;
+}
+
+.banner-slider .banner-slider-dots li {
+  width: auto;
+  height: auto;
+  margin: 0 3px;
+}
+
+.banner-slider .banner-slider-dots li button {
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+
+.banner-slider .banner-slider-dots li button::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #c8c8c8;
+  opacity: 1;
+  position: static;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.banner-slider .banner-slider-dots li.slick-active button::before {
+  width: 22px;
+  border-radius: 4px;
+  background: #333;
+}
+
+.banner-slider .slick-arrow {
+  display: none !important;
+}
