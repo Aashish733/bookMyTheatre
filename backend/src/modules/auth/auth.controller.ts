@@ -124,8 +124,14 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
         // delete refresh token from db
         await TokenService.deleteRefreshToken(refreshToken);
 
-        res.clearCookie('accessToken');
-        res.clearCookie('refreshToken');
+        const cookieOptions = {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            secure: true
+        };
+
+        res.clearCookie('accessToken', cookieOptions);
+        res.clearCookie('refreshToken', cookieOptions);
 
         res.json({msg: "Logged out successfully"}).status(200);
 
