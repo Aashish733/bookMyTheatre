@@ -29,7 +29,9 @@ export const verifyOTP = (hashedOTP: string, data: string) => {
 // send otp to user via email;
 
 const _config = {
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: config.emailUsername,
     pass: config.emailPassword,
