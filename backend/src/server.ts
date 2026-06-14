@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import app from "./app";
 import { config } from "./config/config";
+import { socketCors } from "./config/cors";
 import connectDB from "./config/db";
 import "./config/redis";
 import http from "http";
@@ -17,11 +18,7 @@ const startServer = async () => {
 
   // Create socket.io server
   const io = new Server(httpServer, {
-    cors: {
-      origin: "http://localhost:5173",
-      methods: ["GET", "POST"],
-      credentials: true,
-    },
+    cors: socketCors,
   });
 
   io.on("connection", (socket) => {

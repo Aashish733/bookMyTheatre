@@ -4,16 +4,16 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import router from "./routes";
 import { globalErrorHandler } from "./middlewares/error.middleware";
+import { corsOrigin } from "./config/cors";
 
 dotenv.config();
 
 const app = express();
-const FRONTEND_URL= process.env.FRONTEND_URL
 
 app.use(
   cors({
     credentials: true,
-    origin: FRONTEND_URL,
+    origin: corsOrigin,
   })
 );
 app.use(cookieParser());
