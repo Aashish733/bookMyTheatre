@@ -1,11 +1,18 @@
 import Redis from "ioredis";
 import { config } from "./config";
 
-const redis = new Redis({
-    host: config.redisHost,
-    port: config.redisPort,
-    retryStrategy: () => 5000
-});
+const retryStrategy = () => 5000;
+
+const redis = config.redisUrl
+    ? new Redis(config.redisUrl, {
+          retryStrategy,
+          tls: config.redisUrl.startsWith("rediss://") ? {} : undefined,
+      })
+    : new Redis({
+          host: config.redisHost,
+          port: config.redisPort,
+          retryStrategy,
+      });
 
 redis.on("error", (err) => {
     console.error("[Redis error:]", err);

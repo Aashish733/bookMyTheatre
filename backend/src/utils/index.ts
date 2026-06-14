@@ -88,5 +88,5 @@ export const groupShowsByTheatreAndMovie = (shows: IShow[]): GroupedShow[] => {
 
 const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 8);
 export const generateBookingReference = (): string => {
-  return `BMS-${nanoid()}`;
+  return `BMT-${nanoid()}`;
 };

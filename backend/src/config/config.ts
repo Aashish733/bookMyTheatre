@@ -12,6 +12,9 @@ const _config = {
     emailPassword: process.env.NODEMAILER_PASSWORD as string,
     // emailUsername: process.env.EMAIL_USERNAME as string,
     // emailPassword: process.env.EMAIL_PASSWORD as string,
+    // Upstash / Render: REDIS_URL or UPSTASH_REDIS_URL (rediss://...)
+    // Local Docker: REDIS_HOST + REDIS_PORT
+    redisUrl: process.env.REDIS_URL || process.env.UPSTASH_REDIS_URL,
     redisHost: process.env.REDIS_HOST as string,
     redisPort: parseInt(process.env.REDIS_PORT || "6379"),
     razorpayKey : process.env.RAZORPAY_API_KEY as string,

@@ -130,6 +130,14 @@ const SeatLayout = () => {
           toast.error(`Some seats are already locked: ${alreadyLocked.join(", ")}`)
         })
 
+    return ()=>{
+      socket.off("locked-seats-initials")
+      socket.off("seat-locked")
+      socket.off("seat-unlocked")
+      socket.off("seat-locked-failed")
+      socket.disconnect()
+      }
+
   },[showId])
 
 
