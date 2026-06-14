@@ -8,11 +8,12 @@ import { globalErrorHandler } from "./middlewares/error.middleware";
 dotenv.config();
 
 const app = express();
+const FRONTEND_URL= process.env.FRONTEND_URL
 
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173"],
+    origin: FRONTEND_URL,
   })
 );
 app.use(cookieParser());
