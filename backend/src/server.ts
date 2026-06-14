@@ -8,7 +8,7 @@ import http from "http";
 import { registerSocketHandlers } from "./socket/sockethandlers";
 
 const startServer = async () => {
-  const port = config.port;
+  const port = Number(config.port) || 8000;
 
   // Connet to database
   await connectDB();
@@ -31,7 +31,7 @@ const startServer = async () => {
 
   });
 
-  httpServer.listen(port, () => {
+  httpServer.listen(port, "0.0.0.0", () => {
     console.log(`Listening on port: ${port}`);
   });
 };
