@@ -29,7 +29,7 @@
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "ioredis": "^5.10.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "mailgen": "^2.0.29",
     "mongoose": "^8.16.1",
     "nanoid": "^5.1.7",
