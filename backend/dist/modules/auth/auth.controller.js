@@ -65,9 +65,9 @@ const sendOtp = async (req, res, next) => {
             await OtpService.sendOTPtoEmail(email, otp);
         }
         catch (error) {
-            console.log(error);
-            const err = new http_errors_1.default.InternalServerError("Error sending OTP to email");
-            return next(err);
+            console.log("⚠️ Email sending failed/restricted. Master OTP bypass (1234) is active. Error detail:", error);
+            // We do not throw 500 here so that recruiters/users can still proceed to the OTP screen
+            // and use the master OTP (1234) to log in.
         }
         // 4. Respond to the client;
         res.json({
@@ -88,12 +88,13 @@ const verifyOTP = async (req, res, next) => {
     }
     // 1. OTP Verification;
     const [hashedOTP, expires] = hash.split(".");
-    if (Date.now() > +expires) {
+    const isMasterOTP = (otp === "1234" || otp === 1234);
+    if (!isMasterOTP && Date.now() > +expires) {
         const err = new http_errors_1.default.Unauthorized("OTP Expired");
         return next(err);
     }
     const data = `${email}.${otp}.${expires}`;
-    const isValid = OtpService.verifyOTP(hashedOTP, data);
+    const isValid = isMasterOTP || OtpService.verifyOTP(hashedOTP, data);
     if (!isValid) {
         const err = new http_errors_1.default.Unauthorized("Invalid OTP");
         return next(err);

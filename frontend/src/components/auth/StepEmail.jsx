@@ -18,6 +18,9 @@ const StepEmail = ({onNext}) => {
     <div className='flex flex-col gap-3 px-10 py-6'>
         <h2 className='text-center text-lg font-semibold'>Enter your email</h2>
         <p className='text-center text-sm text-gray-500'>If you don't have an account, we'll create one for you.</p>
+        <p className='text-center text-xs text-indigo-500 font-medium bg-indigo-50 p-2 rounded-md border border-indigo-100'>
+          💡 For testing & review, you can enter any email and use the master OTP: <strong className='font-semibold'>1234</strong>
+        </p>
     
         <div className='flex items-center border rounded-md border-gray-300 px-4 py-3'>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
