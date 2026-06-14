@@ -42,6 +42,14 @@ const _config = {
     },
 };
 const transporter = nodemailer_1.default.createTransport(_config);
+transporter.verify((error, success) => {
+    if (error) {
+        console.error("❌ SMTP connection verification failed:", error);
+    }
+    else {
+        console.log("✅ SMTP server is ready to send emails");
+    }
+});
 const mailGenerator = new mailgen_1.default({
     theme: "default",
     product: {
@@ -284,14 +292,31 @@ you can safely ignore this email.
 </body>
 </html>
 `;
-    const message = {
-        from: `"BookMyTheatre" <${config_1.config.emailUsername}>`,
-        to: email,
-        subject: `${otp} is your BookMyTheatre OTP`,
-        html,
-    };
-    const info = await transporter.sendMail(message);
-    console.log(info);
-    return info.messageId;
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+        throw new Error("RESEND_API_KEY environment variable is not defined");
+    }
+    // Use the default Resend onboarding email address or verified domain
+    const fromEmail = "BookMyTheatre <onboarding@resend.dev>";
+    const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${resendApiKey}`,
+        },
+        body: JSON.stringify({
+            from: fromEmail,
+            to: [email],
+            subject: `${otp} is your BookMyTheatre OTP`,
+            html,
+        }),
+    });
+    if (!res.ok) {
+        const errorData = await res.text();
+        throw new Error(`Resend API error: ${errorData}`);
+    }
+    const result = await res.json();
+    console.log("Resend email response ID:", result.id);
+    return result.id;
 };
 exports.sendOTPtoEmail = sendOTPtoEmail;
