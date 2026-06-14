@@ -1,6 +1,26 @@
 import { config as conf } from 'dotenv';
 conf();
 
+function resolveRedisUrl(): string | undefined {
+    const raw =
+        process.env.REDIS_URL ||
+        process.env.UPSTASH_REDIS_URL ||
+        process.env.UPSTASH_REDIS_ENDPOINT;
+
+    if (!raw) return undefined;
+
+    // Accept plain URLs or pasted redis-cli commands (`redis-cli --tls -u redis://...`)
+    const urlMatch = raw.match(/rediss?:\/\/[^\s"']+/);
+    const url = (urlMatch ? urlMatch[0] : raw.trim());
+
+    // Upstash requires TLS; dashboard URLs sometimes use redis://
+    if (url.includes("upstash.io") && url.startsWith("redis://")) {
+        return url.replace("redis://", "rediss://");
+    }
+
+    return url;
+}
+
 const _config = {
     port: process.env.PORT,
     frontendUrl: process.env.FRONTEND_URL,
@@ -12,9 +32,9 @@ const _config = {
     emailPassword: process.env.NODEMAILER_PASSWORD as string,
     // emailUsername: process.env.EMAIL_USERNAME as string,
     // emailPassword: process.env.EMAIL_PASSWORD as string,
-    // Upstash / Render: REDIS_URL or UPSTASH_REDIS_URL (rediss://...)
-    // Local Docker: REDIS_HOST + REDIS_PORT
-    redisUrl: process.env.REDIS_URL || process.env.UPSTASH_REDIS_URL,
+    // Upstash / Render: REDIS_URL, UPSTASH_REDIS_URL, or UPSTASH_REDIS_ENDPOINT
+    // Local Docker: REDIS_HOST + REDIS_PORT (only when no URL is set)
+    redisUrl: resolveRedisUrl(),
     redisHost: process.env.REDIS_HOST as string,
     redisPort: parseInt(process.env.REDIS_PORT || "6379"),
     razorpayKey : process.env.RAZORPAY_API_KEY as string,
