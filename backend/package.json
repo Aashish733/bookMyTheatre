@@ -13,7 +13,10 @@
     "seed:shows": "ts-node src/scripts/seed-shows.ts",
     "seed1": "node dist/scripts/seed-theaters.js",
     "seed2": "node dist/scripts/seed-movies.js",
-    "seed3": "node dist/scripts/seed-shows.js"
+    "seed3": "node dist/scripts/seed-shows.js",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "test": "jest"
   },
   "author": "Aashish Kumar",
   "license": "ISC",
